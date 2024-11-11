@@ -199,6 +199,7 @@ private:
         Comparable element;  ///< 节点存储的元素
         BinaryNode *left;    ///< 左子节点指针
         BinaryNode *right;   ///< 右子节点指针
+        int height;
 
         /**
          * @brief 构造函数，接受常量引用
@@ -207,8 +208,8 @@ private:
          * @param lt 左子节点指针
          * @param rt 右子节点指针
          */
-        BinaryNode(const Comparable &theElement, BinaryNode *lt, BinaryNode *rt)
-            : element{ theElement }, left{ lt }, right{ rt } {}
+        BinaryNode(const Comparable &theElement, BinaryNode *lt, BinaryNode *rt, int h = 1)
+            : element{ theElement }, left{ lt }, right{ rt }, height{ h } {}
 
         /**
          * @brief 构造函数，接受右值引用
@@ -217,10 +218,9 @@ private:
          * @param lt 左子节点指针
          * @param rt 右子节点指针
          */
-        BinaryNode(Comparable &&theElement, BinaryNode *lt, BinaryNode *rt)
-            : element{ std::move(theElement) }, left{ lt }, right{ rt } {}
+        BinaryNode(Comparable &&theElement, BinaryNode *lt, BinaryNode *rt, int h = 1)
+            : element{ std::move(theElement) }, left{ lt }, right{ rt }, height{ h } {}
     };
-
     BinaryNode *root;  ///< 树的根节点指针
 
     /**
@@ -358,17 +358,57 @@ private:
         }
     }
 
-BinaryNode *detachMin(BinaryNode *&t) {
-    if (t->left == nullptr) {
-        BinaryNode *oldNode = t;
-        t = t->right;
-        delete oldNode;
-        return oldNode;
+    BinaryNode *findMin(BinaryNode *t) const {
+        if (t == nullptr) {
+            return nullptr;
+        }
+        while (t->left != nullptr) {
+            t = t->left;
+        }
+        return t; 
     }
-    return detachMin(t->left);
-}
 
-void remove(const Comparable &x, BinaryNode *&t) {
+void updateHeight(BinaryNode *node) {
+        if (node != nullptr) {
+            node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
+        }
+    }
+
+    int getHeight(BinaryNode *node) const {
+        return node ? node->height : 0;
+    }
+
+    BinaryNode* rotateRight(BinaryNode *y) {
+        BinaryNode *x = y->left;
+        BinaryNode *T2 = x->right;
+
+        x->right = y;
+        y->left = T2;
+
+        updateHeight(y);
+        updateHeight(x);
+
+        return x;
+    }
+
+    BinaryNode* rotateLeft(BinaryNode *x) {
+        BinaryNode *y = x->right;
+        BinaryNode *T2 = y->left;
+
+        y->left = x;
+        x->right = T2;
+
+        updateHeight(x);
+        updateHeight(y);
+
+        return y;
+    }
+
+    int getBalance(BinaryNode *node) const {
+        return node ? getHeight(node->left) - getHeight(node->right) : 0;
+    }
+
+void remove(const Comparable &x, BinaryNode * &t) {
     if (t == nullptr) {
         return; 
     }
@@ -376,7 +416,7 @@ void remove(const Comparable &x, BinaryNode *&t) {
         remove(x, t->left);
     } else if (x > t->element) {
         remove(x, t->right);
-    } else { 
+    } else {
         if (t->left == nullptr) {
             BinaryNode *oldNode = t;
             t = t->right;
@@ -386,9 +426,25 @@ void remove(const Comparable &x, BinaryNode *&t) {
             t = t->left;
             delete oldNode;
         } else {
-            BinaryNode *minNode = detachMin(t->right); 
-            t->element = minNode->element;
-            delete minNode;
+            BinaryNode *successor = findMin(t->right);
+            t->element = successor->element; 
+            remove(successor->element, t->right); 
+        }
+    }
+    if (t != nullptr) {
+        updateHeight(t);
+
+        int balance = getBalance(t);
+        if (balance > 1 && getBalance(t->left) >= 0) {
+            t = rotateRight(t);
+        } else if (balance > 1 && getBalance(t->left) < 0) {
+            t->left = rotateLeft(t->left);
+            t = rotateRight(t);
+        } else if (balance < -1 && getBalance(t->right) <= 0) {
+            t = rotateLeft(t);
+        } else if (balance < -1 && getBalance(t->right) > 0) {
+            t->right = rotateRight(t->right);
+            t = rotateLeft(t);
         }
     }
 }

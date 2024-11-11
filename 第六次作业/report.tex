@@ -1,0 +1,75 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{顾善元, 3230104463}
+\chead{数据结构与算法第六次作业}
+\rhead{Nov.9rd, 2024}
+
+\section{删除操作概述}
+`BinarySearchTree`类的删除操作在处理节点的删除的同时保持AVL树的平衡。实现步骤如下：
+
+\begin{enumerate}
+    \item 如果要删除的节点没有子节点，直接将其从树中移除。
+    \item 如果节点有一个子节点，用其子节点替换该节点。
+    \item 如果节点有两个子节点，找到中序后继，将其值复制到要删除的节点，然后删除中序后继。
+\end{enumerate}
+
+\section{平衡树}
+保持AVL属性，删除操作执行以下步骤：
+
+\begin{enumerate}
+    \item 更新受影响节点的高度。
+    \item 重新计算每个节点的平衡因子。
+    \item 执行旋转以重新平衡树。
+\end{enumerate}
+
+旋转基于左子树和右子树高度之差进行。可能的旋转包括：
+
+\begin{itemize}
+    \item 左左和左右情况执行右旋转。
+    \item 右右和右左情况执行左旋转。
+\end{itemize}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
