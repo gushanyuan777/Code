@@ -61,12 +61,17 @@ std::vector<int> generateRepetitiveSequence(size_t size) {
 int main() {
     size_t size = 1000000;
 
-    std::vector<int> vec = generateRandomSequence(size);
     auto start = std::chrono::high_resolution_clock::now();
-    heapSort(vec);
+    std::vector<int> vec = generateRandomSequence(size);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
-    std::cout << "my heapsort time (random sequence): " << diff.count() << " s" << std::endl;
+    std::cout << "Generate random sequence time: " << diff.count() << " s" << std::endl;
+
+    start = std::chrono::high_resolution_clock::now();
+    heapSort(vec);
+    end = std::chrono::high_resolution_clock::now();
+    diff = end - start;
+    std::cout << "Heap sort time (random sequence): " << diff.count() << " s" << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     std::sort_heap(vec.begin(), vec.end());
@@ -74,19 +79,13 @@ int main() {
     diff = end - start;
     std::cout << "std::sort_heap time (random sequence): " << diff.count() << " s" << std::endl;
 
-    if (check(vec)) {
-        std::cout << "Random sequence is correctly sorted." << std::endl;
-    } else {
-        std::cout << "Random sequence sorting is incorrect." << std::endl;
-    }
-
     vec = generateOrderedSequence(size);
 
     start = std::chrono::high_resolution_clock::now();
     heapSort(vec);
     end = std::chrono::high_resolution_clock::now();
     diff = end - start;
-    std::cout << "my heapsort time (ordered sequence): " << diff.count() << " s" << std::endl;
+    std::cout << "Heap sort time (ordered sequence): " << diff.count() << " s" << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     std::sort_heap(vec.begin(), vec.end());
@@ -94,19 +93,13 @@ int main() {
     diff = end - start;
     std::cout << "std::sort_heap time (ordered sequence): " << diff.count() << " s" << std::endl;
 
-    if (check(vec)) {
-        std::cout << "Ordered sequence is correctly sorted." << std::endl;
-    } else {
-        std::cout << "Ordered sequence sorting is incorrect." << std::endl;
-    }
-
     vec = generateReverseSequence(size);
 
     start = std::chrono::high_resolution_clock::now();
     heapSort(vec);
     end = std::chrono::high_resolution_clock::now();
     diff = end - start;
-    std::cout << "my heapsort time (reverse sequence): " << diff.count() << " s" << std::endl;
+    std::cout << "Heap sort time (reverse sequence): " << diff.count() << " s" << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     std::sort_heap(vec.begin(), vec.end());
@@ -114,31 +107,19 @@ int main() {
     diff = end - start;
     std::cout << "std::sort_heap time (reverse sequence): " << diff.count() << " s" << std::endl;
 
-    if (check(vec)) {
-        std::cout << "Reverse sequence is correctly sorted." << std::endl;
-    } else {
-        std::cout << "Reverse sequence sorting is incorrect." << std::endl;
-    }
-
     vec = generateRepetitiveSequence(size);
 
     start = std::chrono::high_resolution_clock::now();
     heapSort(vec);
     end = std::chrono::high_resolution_clock::now();
     diff = end - start;
-    std::cout << "my heapsort time (repetitive sequence): " << diff.count() << " s" << std::endl;
+    std::cout << "Heap sort time (repetitive sequence): " << diff.count() << " s" << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     std::sort_heap(vec.begin(), vec.end());
     end = std::chrono::high_resolution_clock::now();
     diff = end - start;
     std::cout << "std::sort_heap time (repetitive sequence): " << diff.count() << " s" << std::endl;
-
-    if (check(vec)) {
-        std::cout << "Repetitive sequence is correctly sorted." << std::endl;
-    } else {
-        std::cout << "Repetitive sequence sorting is incorrect." << std::endl;
-    }
 
     return 0;
 }
