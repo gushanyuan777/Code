@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{ctex} % 引入中文包
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{堆排序报告}
+\author{顾善元}
+\date{\Nov 30th}
+
+\begin{document}
+
+\maketitle
+
+\section{设计与实现}
+\subsection{HeapSort.h}
+\texttt{HeapSort.h}堆排序算法基于二叉堆数据结构，通过构建最大堆或最小堆来实现排序。算法分为两个主要部分：构建最大堆和从堆中提取元素进行排序。
+
+\subsection{测试用例}
+测试用例包括随机序列、有序序列、逆序序列和部分元素重复的序列。
+
+\section{测试流程}
+1. 生成四种类型的测试序列：随机序列、有序序列、逆序序列和部分元素重复序列，每个序列的长度均为1000000。
+2. 对每种序列使用自定义堆排序算法和`std::sort_heap()`函数进行排序。
+3. 记录并比较两种方法的排序时间。
+
+\section{结果与对比}
+以下表格比较了自定义堆排序和\texttt{std::sort\_heap()}在不同类型序列上的执行时间：
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{序列类型} & \textbf{我的堆排序时间 (s)} & \textbf{std::sort\_heap 时间 (s)} \\
+\hline
+随机序列 & \textbf{xx} & \textbf{xx} \\
+有序序列 & \textbf{xx} & \textbf{xx} \\
+逆序序列 & \textbf{xx} & \textbf{xx} \\
+部分重复元素序列 & \textbf{xx} & \textbf{xx} \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}
