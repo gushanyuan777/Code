@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ctex}
+
+\title{中缀表达式求值程序报告}
+\author{顾善元}
+\date{12/11}
+
+\begin{document}
+
+\maketitle
+
+\section{引言}
+中缀表达式求值程序的设计和实现。程序支持加、减、乘、除四则运算，并能处理包含括号的复杂表达式。同时，程序能够判断输入表达式的合法性，并在不合法的情况下输出“ILLEGAL”。
+
+\section{设计思路}
+
+\subsection{需求分析}
+程序需满足以下需求：
+\begin{itemize}
+  \item 支持加(+)、减(-)、乘(*)、除(/)四则运算。
+  \item 支持括号(())的使用。
+  \item 支持有限位小数运算。
+  \item 能够判断表达式的合法性，并在非法时输出“ILLEGAL”。
+\end{itemize}
+
+\subsection{模块划分}
+程序分为两个主要模块：
+\begin{itemize}
+  \item \texttt{expression\_evaluator.h}：声明求值相关的函数和异常类。
+  \item \texttt{expression\_evaluator.cpp}：实现表达式求值和合法性检查的具体逻辑。
+\end{itemize}
+
+\subsection{算法选择}
+程序采用两个栈（一个用于数字，一个用于运算符）来处理运算符优先级和括号。处理复杂的表达式求值问题。
+
+\section{实现细节}
+
+\subsection{异常类定义}
+定义了两个自定义异常类，用于处理除以零和非法表达式的情况。
+
+\subsection{合法性检查}
+实现函数\texttt{isLegalExpression}，检查表达式中的括号是否匹配、是否以运算符开头或结尾、以及是否有连续的运算符。
+
+\subsection{表达式求值}
+实现函数\texttt{evaluateExpression}，使用栈来处理运算符优先级和括号，计算表达式的值。
+
+\section{测试案例与结果分析}
+
+\subsection{测试案例}
+设计了多个测试案例，包括合法和非法的表达式，以及包含小数和括号的复杂表达式。
+
+\subsection{结果分析}
+程序能够正确处理所有测试案例，并在遇到非法表达式时输出“ILLEGAL”。对于合法的表达式，程序能够准确计算出结果。
+
+\section{结论}
+本程序成功实现了中缀表达式的求值功能，并能够判断表达式的合法性。程序具有良好的健壮性和准确性。
+
+\end{document}
